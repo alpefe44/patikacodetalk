@@ -25,9 +25,15 @@ const RoomScreen = (props: Props) => {
     function getDatabase() {
         const referance = database().ref(`classes/rooms/${id}/messages`);
         referance.on('value', snapshot => {
-            const contentData = snapshot.val()
-            const parsedData = RoomParse(contentData)
-            setData(parsedData)
+            if (snapshot.val()) {
+                console.log(snapshot.val())
+                const contentData = snapshot.val()
+                const parsedData = RoomParse(contentData)
+                console.log(parsedData, "firtstmessagedata")
+                setData(parsedData)
+            }else {
+                return
+            }
         })
     }
 

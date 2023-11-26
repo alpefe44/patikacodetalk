@@ -5,9 +5,12 @@ export function PushRoom(classes: string) {
     const reference = database().ref(`/classes/rooms/${classes}`).push()
     reference.set(
         classes
-    ).then(() => console.log('Data set.'));
+    ).then(() => {
+        console.log('Data set.')
+    });
+};
 
-}
+
 
 
 export function PushMessages(room: any, message: any) {
