@@ -21,16 +21,22 @@ const HomeScreen = (props: Props) => {
     function getDatabase() {
         const referance = database().ref('classes/rooms');
         referance.on('value', snapshot => {
-            const contentData = snapshot.val()
-            const parsedData = parseContentData(contentData)
-            setData(parsedData)
+            if (snapshot.val()) {
+                const contentData = snapshot.val()
+                const parsedData = parseContentData(contentData)
+                setData(parsedData)
+            }else {
+                return
+            }
+
         })
     }
 
     function addClass() {
         if (value?.replace(/\s/g, "").length > 0) {
             PushRoom(value)
-        }else {
+            setVisible(false)
+        } else {
             Alert.alert("Değer Girmek Zorundasın BOŞ BIRAKAMAZSIN!!!")
         }
 
