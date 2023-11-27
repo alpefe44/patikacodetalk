@@ -37,11 +37,13 @@ const RoomScreen = (props: Props) => {
         })
     }
 
+
     function PushMessage() {
         if (value?.replace(/\s/g, "").length > 0) {
             PushMessages(id, {
                 name: auth().currentUser?.email,
-                content: value
+                content: value,
+                date : (new Date()).toISOString()
             })
             setVisible(false)
             setValue("")
