@@ -7,16 +7,28 @@ import { PushRoom } from '../../DatabaseActions/DataBaseActions'
 import parseContentData from '../../utils/parseContentData'
 import database from '@react-native-firebase/database'
 import MessageCard from '../../Components/MessageCard/MessageCard'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { RootStackNav } from '../../Navigation/Navigator'
+import auth from '@react-native-firebase/auth'
+
 
 type Props = {}
 
 const HomeScreen = (props: Props) => {
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackNav>>()
 
     const [visible, setVisible] = React.useState<boolean>(false);
     const [value, setValue] = React.useState<string>('');
 
     const [data, setData] = React.useState<any>([]);
 
+    const logOut = async () => {
+        auth().signOut()
+            .then(() => console.log("Çıkış Yapıldı"))
+
+        navigation.replace('LoginScreen');
+    }
 
     function getDatabase() {
         const referance = database().ref('classes/rooms');
@@ -25,7 +37,7 @@ const HomeScreen = (props: Props) => {
                 const contentData = snapshot.val()
                 const parsedData = parseContentData(contentData)
                 setData(parsedData)
-            }else {
+            } else {
                 return
             }
 
@@ -41,6 +53,18 @@ const HomeScreen = (props: Props) => {
         }
 
     }
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <Pressable onPress={() => {
+                    logOut()
+                }}>
+                    <Icon name='logout' size={24}></Icon>
+                </Pressable>
+            )
+        })
+    })
 
     React.useEffect(() => {
         getDatabase();

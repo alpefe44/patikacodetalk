@@ -42,7 +42,7 @@ const RegisterScreen = () => {
     return (
         <KeyboardAvoidingView style={{ height: height, backgroundColor: Colors.orange }} behavior={Platform.OS === 'android' ? 'position' : 'height'}>
             <View style={{ height: height * .5, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ fontWeight: 'bold', fontSize: 26, color: 'white' }}>codewalk</Text>
+                <Text style={{ fontWeight: 'bold', fontSize: 26, color: 'white' }}>codetalk</Text>
             </View>
             <Formik
                 initialValues={{ email: '', password: '' }}

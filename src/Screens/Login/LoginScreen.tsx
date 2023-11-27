@@ -17,18 +17,23 @@ const LoginScreen = () => {
 
     function handleSubmit(values: any) {
         console.log(values.email, values.password)
-        signIn(values.email, values.password)
+        if (values.email == "" || values.password == "") {
+            Alert.alert("Boş Bırakamazsın!!")
+        } else {
+            signIn(values.email, values.password)
+        }
+
     }
 
     function goToRegister() {
-        navigation.navigate('RegisterScreen')
+        navigation.replace('RegisterScreen')
     }
 
     function signIn(email: string, password: string) {
         auth().signInWithEmailAndPassword(email, password)
             .then(() => {
                 Alert.alert("giris yapıldı")
-                navigation.navigate('HomeScreen')
+                navigation.replace('HomeScreen')
             })
             .catch((error) => console.log(error))
     }
@@ -36,24 +41,22 @@ const LoginScreen = () => {
     return (
         <KeyboardAvoidingView style={{ height: height, backgroundColor: Colors.orange }} behavior={Platform.OS === 'android' ? 'position' : 'height'}>
             <View style={{ height: height * .5, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ fontWeight: 'bold', fontSize: 26, color: 'white' }}>codewalk</Text>
+                <Text style={{ fontWeight: 'bold', fontSize: 26, color: 'white' }}>codetalk</Text>
             </View>
             <Formik
-                initialValues={{ email: '', password: '' }}
+                initialValues={{ email: "", password: "" }}
                 onSubmit={handleSubmit}
             >
-                {({ values, handleChange, handleSubmit, errors }) => (
+                {({ values, handleChange, handleSubmit }) => (
                     <View style={{ padding: 5, gap: 10 }}>
                         <View>
                             <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 16 }}>Email</Text>
                             <CustomTextInput placeholder='Email' value={values.email} onChangeText={handleChange('email')}></CustomTextInput>
                         </View>
-                        <Text>{errors.email}</Text>
                         <View style={{ marginBottom: 10 }}>
                             <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 16 }}>Password</Text>
                             <CustomTextInput placeholder='Password' value={values.password} onChangeText={handleChange('password')}></CustomTextInput>
                         </View>
-                        <Text>{errors.password}</Text>
                         <CustomButton theme='secondary' title='Giriş Yap' onPress={() => handleSubmit()}></CustomButton>
                         <CustomButton theme='primary' title='Kayıt ol' onPress={goToRegister}></CustomButton>
                     </View>
